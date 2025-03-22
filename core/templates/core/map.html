@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>World Map - Zeek's Journey</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h2>🗺️ Choose a country to explore DEI</h2>
+    <ul>
+        <li><a href="{% url 'country' country_name='south-korea' %}">🇰🇷 South Korea</a></li>
+        <li><a href="{% url 'country' country_name='india' %}">🇮🇳 India</a></li>
+        <li><a href="{% url 'country' country_name='china' %}">🇨🇳 China</a></li>
+        <li><a href="{% url 'country' country_name='us' %}">🇺🇸 United States</a></li>
+        <li><a href="{% url 'country' country_name='canada' %}">🇨🇦 Canada</a></li>
+    </ul>
+</body>
+</html>

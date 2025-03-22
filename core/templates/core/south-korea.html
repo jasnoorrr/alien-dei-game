@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>South Korea - Zeek's Mission</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h2>🇰🇷 Flight from Korea to Canada</h2>
+    <p>Zeek notices passengers avoiding a seat near a person with a physical disability.</p>
+    <p>Later, Zeek learns this person was Stephen Hawking, and the amputee was a mountain climber who scaled Everest.</p>
+
+    <h3>👽 Zeek asks:</h3>
+    <p>What does this teach you about making assumptions?</p>
+
+    <!-- Optional form to collect answers -->
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="response" placeholder="Write your reflection here..." rows="4" cols="50"></textarea><br>
+        <button type="submit">Send to Zeek 🌌</button>
+    </form>
+
+    <a href="{% url 'map' %}">⬅️ Back to Map</a>
+</body>
+</html>
