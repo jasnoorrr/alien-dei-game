@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alien DEI Journey</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>🌍 Journey of Zeek: An Alien’s Guide to DEI on Earth</h1>
+    <a href="{% url 'country' country_name='south-korea' %}">
+        <button class="start-button">Start Journey 🚀</button>
+    </a>
+</body>
+</html>
