@@ -33,6 +33,21 @@
         z-index: 1;
     }
 
+    /* Mute / Unmute Button */
+    .mute-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 3;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        font-size: 14px;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
     /* Start Journey Button */
     .start-button {
         position: absolute;
