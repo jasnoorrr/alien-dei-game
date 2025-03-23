@@ -1,18 +1,105 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>World Map - Zeek's Journey</title>
+    <meta charset="UTF-8">
+    <title>Zuno's Interactive Map</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .map-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .map-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .country-button {
+            position: absolute;
+            padding: 10px 14px;
+            font-size: 14px;
+            background-color: rgba(0, 128, 255, 0.8);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .country-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Approximate positions based on the image */
+        .btn-usa {
+            top: 20%;
+            left: 13%;
+        }
+
+        .btn-canada {
+            top: 40%;
+            left: 16%;
+        }
+
+        .btn-india {
+            top: 40%;
+            left: 53%;
+        }
+
+        .btn-china {
+            top: 20%;
+            left: 65%;
+        }
+
+        .btn-japan {
+            top: 65%;
+            left: 75%;
+        }
+    </style>
 </head>
 <body>
-    <h2>🗺️ Choose a country to explore DEI</h2>
-    <ul>
-        <li><a href="{% url 'country' country_name='south-korea' %}">🇰🇷 South Korea</a></li>
-        <li><a href="{% url 'country' country_name='india' %}">🇮🇳 India</a></li>
-        <li><a href="{% url 'country' country_name='china' %}">🇨🇳 China</a></li>
-        <li><a href="{% url 'country' country_name='us' %}">🇺🇸 United States</a></li>
-        <li><a href="{% url 'country' country_name='canada' %}">🇨🇦 Canada</a></li>
-    </ul>
+
+    <div class="map-wrapper">
+        <!-- 🌍 Map Background Video -->
+        <video class="map-video" autoplay muted loop>
+            <source src="{% static 'videos/map.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- 🚀 Country Buttons -->
+        <a href="{% url 'country' country_name='us' %}">
+            <button class="country-button btn-usa">🇺🇸 USA</button>
+        </a>
+
+        <a href="{% url 'country' country_name='canada' %}">
+            <button class="country-button btn-canada">🇨🇦 Canada</button>
+        </a>
+
+        <a href="{% url 'country' country_name='india' %}">
+            <button class="country-button btn-india">🇮🇳 India</button>
+        </a>
+
+        <a href="{% url 'country' country_name='china' %}">
+            <button class="country-button btn-china">🇨🇳 China</button>
+        </a>
+
+        <a href="{% url 'country' country_name='japan' %}">
+            <button class="country-button btn-japan">🇯🇵 Japan</button>
+        </a>
+    </div>
+
 </body>
 </html>

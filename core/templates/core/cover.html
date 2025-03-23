@@ -8,36 +8,58 @@
 </head>
 <body>
 
-    <!-- Background video -->
+    <!-- 🎥 Background Video -->
     <video id="introVideo" autoplay muted loop>
         <source src="{% static 'videos/intro.mp4' %}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
-    <!-- Dark overlay -->
+    <!-- 🌑 Optional Dark Overlay -->
     <div class="overlay"></div>
 
-    <!-- Start button -->
+    <!-- 🚀 Start Button -->
     <a href="{% url 'map' %}">
         <button class="start-button">Begin Zuno’s Journey 🚀</button>
     </a>
 
-    <!-- Mute / Unmute Button -->
+    <!-- 🔇 Mute / Unmute Toggle -->
     <button class="mute-button" onclick="toggleMute()">🔇 Sound Off</button>
 
-    <!-- JS for mute toggle -->
+    <!-- 🧠 JS: Mute toggle + Voice narration -->
     <script>
-        function toggleMute() {
-            const video = document.getElementById("introVideo");
-            video.muted = !video.muted;
+        const video = document.getElementById("introVideo");
 
+        function toggleMute() {
+            video.muted = !video.muted;
             const btn = document.querySelector(".mute-button");
             btn.textContent = video.muted ? "🔇 Sound Off" : "🔊 Sound On";
-
-            if (!video.paused) {
-                video.play(); // ensure it's still playing after unmuting
-            }
+            if (!video.paused) video.play(); // Resume playback if paused
         }
+
+        function speakText() {
+            const text = "Sources confirm an intergalactic visitor named Zuno has arrived on a mission to study human behavior and promote diversity, equity, and inclusion on Earth.";
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = "en-US";
+
+            const voices = window.speechSynthesis.getVoices();
+            const voice = voices.find(v => v.name.includes("Female") || v.name.includes("Google UK English Female") || v.name.includes("Google US English"));
+            if (voice) speech.voice = voice;
+
+            speech.rate = 1;
+            speech.pitch = 1.2;
+            speech.volume = 1;
+
+            window.speechSynthesis.speak(speech);
+        }
+
+        window.speechSynthesis.onvoiceschanged = () => {
+            video.addEventListener("play", () => {
+                if (!video.hasSpoken) {
+                    speakText();
+                    video.hasSpoken = true;
+                }
+            });
+        };
     </script>
 
 </body>
