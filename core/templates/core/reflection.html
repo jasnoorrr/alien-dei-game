@@ -9,11 +9,30 @@
     <h1>📊 Zeek's DEI Report</h1>
     <p>You’ve helped Zeek understand how Earth can be more inclusive.</p>
     <p>Real-world data shows there’s still work to do!</p>
+    
+    <!-- Audio element to load and play the generated speech -->
+    <audio id="reflectionAudio">
+        <source src="{% url 'speech_audio' %}" type="audio/mpeg">
+        Your browser does not support the audio tag.
+    </audio>
+
     <!-- Placeholder for charts -->
     <div id="charts">
         <p>[Charts coming soon]</p>
     </div>
 
+    <!-- Link to restart the journey -->
     <a href="{% url 'cover' %}">Restart Journey</a>
+
+    <!-- Button to manually play audio -->
+    <button onclick="playAudio()">Play Audio</button>
+
+    <script>
+        // Function to play audio when the button is clicked
+        function playAudio() {
+            let audio = document.getElementById("reflectionAudio");
+            audio.play().catch(error => console.log("Autoplay blocked:", error));
+        }
+    </script>
 </body>
 </html>
