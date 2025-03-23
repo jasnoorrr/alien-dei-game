@@ -5,8 +5,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zeek Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0d1b2a;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;  /* Ensure the container takes full viewport height */
+            position: relative;
+        }
+
+        #introVideo {
+            width: 80%;  /* You can adjust this value as needed */
+            max-width: 900px;  /* Max width for the video */
+            height: auto;  /* Maintain aspect ratio */
+            border-radius: 10px;  /* Optional: add rounded corners */
+        }
+
+        #chat-container, #options {
+            display: none;
+            background: #1b263b;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        #chat-box {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #415a77;
+        }
+        .message { padding: 5px; margin: 5px 0; }
+        .user { text-align: right; color: #4cc9f0; }
+        .bot { text-align: left; color: #f4a261; }
+        button {
+            padding: 10px;
+            margin: 10px;
+            background: #4cc9f0;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .back-button {
+    background: #1e90ff;
+    margin-top: 20px;
+}
+    </style>
 </head>
 <body>
-    <p> Canada </p>
+    <div id="video-container">
+        <video id="introVideo" autoplay muted>
+            <source src="{% static 'videos/canada.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div id="options">
+        <p>What would you like to do next?</p>
+        <button onclick="callHelpline()">📞 Call Helpline No</button>
+        <button onclick="startChat()">💬 Talk to Me</button>
+        <button onclick="forgetAboutIt()">🚀 Forget About It</button>
+    </div>
+
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+        <button onclick="startVoiceInput()">🎤 Speak</button>
+    </div>
+
+    <div style="margin-top: 20px;">
+    <a href="{% url 'map' %}">
+        <button>🌍 Back to Travel</button>
+    </a>
+</div>
+
+    <script>
+        let video = document.getElementById("introVideo");
+        let options = document.getElementById("options");
+        let chatContainer = document.getElementById("chat-container");
+
+        video.onended = function() {
+            video.pause(); // Stop the video after it ends
+            options.style.display = "block"; // Show the options after the video ends
+        };
+
+        function callHelpline() {
+            alert("Calling Helpline... (Feature to be implemented)");
+        }
+
+        function startChat() {
+            options.style.display = "none"; // Hide options when chat starts
+            chatContainer.style.display = "block"; // Show chat container
+        }
+
+        function forgetAboutIt() {
+            alert("Okay, take care!");
+        }
+
+        async function sendMessage(message = null) {
+            let inputField = document.getElementById("user-input");
+            message = message || inputField.value; // If message is null, take input from the user
+            if (!message) return;
+
+            let chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<div class='message user'>${message}</div>`; // Add user message to chat
+            inputField.value = ""; // Clear input field
+
+            let response = await getZeekResponse(message); // Get bot response
+            chatBox.innerHTML += `<div class='message bot'>${response}</div>`; // Add bot message to chat
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom of chat box
+
+            speakResponse(response); // Make the bot speak its response
+        }
+
+        async function getZeekResponse(message) {
+            let apiUrl = "https://api.cohere.ai/v1/generate";
+            let apiKey = "xDnmsvLat0AjF7ox8rvJCr7iqHdeqUvnXbaUKQxI";
+
+            let response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "command-r-plus",
+                    prompt: `Zeek is an AI chatbot focused on DEI. User: ${message}\nZeek:`,
+                    max_tokens: 100
+                })
+            });
+
+            let data = await response.json();
+            return data.generations[0].text.trim();
+        }
+
+        function speakResponse(text) {
+            let speech = new SpeechSynthesisUtterance(text);
+            speech.lang = "en-US";
+            speech.volume = 1;
+            speech.rate = 1;
+            speech.pitch = 1;
+            window.speechSynthesis.speak(speech); // Make the bot speak
+        }
+
+        function startVoiceInput() {
+            let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            recognition.start(); // Start voice recognition
+            recognition.onresult = function(event) {
+                let voiceInput = event.results[0][0].transcript; // Get the voice input
+                sendMessage(voiceInput); // Send the voice input as a message
+            };
+        }
+    </script>
 </body>
 </html>
