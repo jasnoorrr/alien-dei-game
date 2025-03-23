@@ -1,14 +1,26 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Alien DEI Journey</title>
+    <meta charset="UTF-8">
+    <title>Zuno’s DEI Mission - Intro</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>🌍 Journey of Zeek: An Alien’s Guide to DEI on Earth</h1>
-    <a href="{% url 'country' country_name='south-korea' %}">
-        <button class="start-button">Start Journey 🚀</button>
+
+    <!-- Background video -->
+    <video autoplay muted loop>
+        <source src="{% static 'videos/intro.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Dark overlay -->
+    <div class="overlay"></div>
+
+    <!-- Start button -->
+    <a href="{% url 'map' %}">
+        <button class="start-button">Begin Zuno’s Journey 🚀</button>
     </a>
+
 </body>
 </html>
