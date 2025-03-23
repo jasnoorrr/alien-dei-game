@@ -25,6 +25,18 @@ def reflection_page(request):
 def us_page(request):
     return render(request, 'core/us.html')
 
+def india_page(request):
+    return render(request, 'core/india.html')
+
+def canada_page(request):
+    return render(request, 'core/canada.html')
+
+def china_page(request):
+    return render(request, 'core/china.html')
+
+def japan_page(request):
+    return render(request, 'core/japan.html')
+
 # Set up logging
 logger = logging.getLogger(__name__)
 

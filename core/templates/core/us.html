@@ -64,7 +64,7 @@
 <body>
     <div id="video-container">
         <video id="introVideo" autoplay muted>
-            <source src="{% static 'videos/intro.mp4' %}" type="video/mp4">
+            <source src="{% static 'videos/usa.mp4' %}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
@@ -123,7 +123,24 @@
         }
 
         async function getZeekResponse(message) {
-            return "Hello! How can I assist you today?"; // Example bot response
+            let apiUrl = "https://api.cohere.ai/v1/generate";
+            let apiKey = "xDnmsvLat0AjF7ox8rvJCr7iqHdeqUvnXbaUKQxI"; 
+            
+            let response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "command-r-plus",
+                    prompt: `Zeek is an AI chatbot focused on DEI. User: ${message}\nZeek:`,
+                    max_tokens: 100
+                })
+            });
+            
+            let data = await response.json();
+            return data.generations[0].text.trim();
         }
 
         function speakResponse(text) {

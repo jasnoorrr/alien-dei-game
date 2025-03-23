@@ -8,4 +8,9 @@ urlpatterns = [
     path('reflection/', views.reflection_page, name='reflection'),
     path('speech/', views.speech_audio, name='speech'),  # ✅ Add this line
     path('us/', views.us_page, name='us'),
+    path('india/', views.india_page, name='india'),
+    path('canada/', views.canada_page, name='canada'),
+    path('china/', views.china_page, name='china'),
+    path('japan/', views.japan_page, name='japan'),
+    
 ]
